@@ -47,5 +47,5 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    countTimer('24 february 2021 14:48:00');
+    countTimer('25 february 2021 14:48:00');
 });
