@@ -50,4 +50,68 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     countTimer('25 february 2021 14:48:00');
+
+    //? Menu
+    const toggleMenu = () => {
+        const btnMenu = document.querySelector('.menu');
+        const menu = document.querySelector('menu');
+        const closeBtn = document.querySelector('.close-btn');
+        const menuItems = menu.querySelectorAll('ul>li');
+
+        const handlerMenu = () => {
+            menu.classList.toggle('active-menu');
+        };
+
+        btnMenu.addEventListener('click', handlerMenu);
+
+        closeBtn.addEventListener('click', handlerMenu);
+
+        menuItems.forEach((item) => item.addEventListener('click', handlerMenu));
+
+    }
+    toggleMenu();
+
+    //! popup
+    const togglePopUp = () => {
+        const popup = document.querySelector('.popup');
+        const popupContent = popup.querySelector('.popup-content');
+        const popupBtn = document.querySelectorAll('.popup-btn');
+        const popupClose = document.querySelector('.popup-close');
+        const width = document.documentElement.clientWidth;
+        let count = 100;
+
+        if (width > 768) {
+            popupBtn.forEach((item) => {
+                item.addEventListener('click', () => {
+                    popup.style.display = 'block'
+                    count = 100;
+                    popupInterval = requestAnimationFrame(showPopup);
+                });
+            });
+        }else{
+            popupBtn.forEach((item) => {
+                item.addEventListener('click', () => {
+                    popup.style.display = 'block'
+                });
+            });
+        }
+
+        popupClose.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+
+        let popupInterval;
+        let showPopup = function () {
+            popupInterval = requestAnimationFrame(showPopup);
+            count--;
+            if (count !== 10) {
+                popupContent.style.top = count + '%';
+            } else {
+                cancelAnimationFrame(popupInterval);
+            }
+        }
+
+    }
+    togglePopUp();
+
 });
