@@ -39,9 +39,12 @@ window.addEventListener('DOMContentLoaded', () => {
             timerMinutes.textContent = timer.minutes;
             timerSeconds.textContent = timer.seconds;
 
-            setTimeout(function () {
+            if(timer.timeRemaining <= 0){
                 clearInterval(idInterval);
-            }, timer.timeRemaining * 1000);
+                timerHours.textContent = '00';
+                timerMinutes.textContent = '00';
+                timerSeconds.textContent = '00';
+            }
         }
 
         let idInterval = setInterval(function () {
@@ -49,7 +52,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
-    countTimer('25 february 2021 14:48:00');
+    countTimer('27 february 2021 19:40:00');
 
     //? Menu
     const toggleMenu = () => {
