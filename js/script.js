@@ -1,4 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
+    //   "parser" = "babel-eslint" ;
     'use strict';
 
     //? Timer
@@ -22,7 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 seconds
             };
         }
-        let timer = getTimeRemaining();
+
 
         function updateClock() {
             let timer = getTimeRemaining();
@@ -47,9 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        let idInterval = setInterval(function () {
-            updateClock();
-        }, 1000);
+        let idInterval = setInterval(updateClock, 1000);
     }
 
     countTimer('27 february 2021 19:40:00');
@@ -70,15 +69,15 @@ window.addEventListener('DOMContentLoaded', () => {
                         menu.classList.remove('active-menu');
                     }
                 }
-                if(!e.target.matches('ul>li')){
+                if (!e.target.matches('ul>li')) {
                     let liTarget = e.target.closest('ul>li');
-                    if(liTarget){
+                    if (liTarget) {
                         menu.classList.remove('active-menu');
                     }
                 }
-            } 
+            }
         });
-    }
+    };
     toggleMenu();
 
     //! popup
@@ -92,7 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (width > 768) {
             popupBtn.forEach((item) => {
                 item.addEventListener('click', () => {
-                    popup.style.display = 'block'
+                    popup.style.display = 'block';
                     count = 100;
                     popupInterval = requestAnimationFrame(showPopup);
                 });
@@ -100,7 +99,7 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             popupBtn.forEach((item) => {
                 item.addEventListener('click', () => {
-                    popup.style.display = 'block'
+                    popup.style.display = 'block';
                 });
             });
         }
@@ -166,5 +165,120 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     tabs();
+
+    //! Slider
+    const slider = () => {
+        const slide = document.querySelectorAll('.portfolio-item');
+        const dot = document.querySelectorAll('.dot');
+        const slider = document.querySelector('.portfolio-content');
+        class AddDots {
+            constructor(elem, newClass) {
+                this.elem = elem;
+                this.newClass = newClass;
+            }
+            addNewClass() {
+                const portfolio = document.querySelector('#portfolio');
+                const ul = portfolio.querySelector('.portfolio-dots');
+                this.elem = document.createElement('li');
+                this.elem.classList.add('dot');
+                ul.append(this.elem);
+            }
+        }
+        const appData = new AddDots();
+        
+        slide.forEach((item) => {
+            if (item) {
+                appData.addNewClass();
+            }
+        });
+
+
+        let currentSlide = 0; //?  это номер слайда
+        let interval;
+
+        const prevSlide = (elem, i, strClass) => {
+            elem[i].classList.remove(strClass);
+        };
+
+        const nextSlide = (elem, i, strClass) => {
+            elem[i].classList.add(strClass);
+        };
+
+        const autoPlaySlide = () => {
+            const dot = document.querySelectorAll('.dot');
+
+            prevSlide(slide, currentSlide, 'portfolio-item-active');
+            prevSlide(dot, currentSlide, 'dot-active');
+            currentSlide++;
+            if (currentSlide >= slide.length) {
+                currentSlide = 0;
+            }
+            nextSlide(slide, currentSlide, 'portfolio-item-active');
+            nextSlide(dot, currentSlide, 'dot-active');
+        };
+
+        const startSlide = (time = 3000) => {
+            interval = setInterval(autoPlaySlide, time);
+        };
+
+        const stopSlide = () => {
+            clearInterval(interval);
+        };
+
+        slider.addEventListener('click', (e) => {
+            const dot = document.querySelectorAll('.dot');
+            
+            e.preventDefault();
+            let target = e.target;
+
+            if (!target.matches('.portfolio-btn, .dot')) {
+                return;
+            }
+
+            prevSlide(slide, currentSlide, 'portfolio-item-active');
+            prevSlide(dot, currentSlide, 'dot-active');
+
+            if (target.matches('#arrow-right')) {
+                currentSlide++;
+            } else if (target.matches('#arrow-left')) {
+                currentSlide--;
+            } else if (target.matches('.dot')) {
+                dot.forEach((elem, index) => {
+                    if (elem === target) {
+                        currentSlide = index;
+                    }
+                });
+            }
+
+            if (currentSlide >= slide.length) {
+                currentSlide = 0;
+            }
+            if (currentSlide < 0) {
+                currentSlide = slide.length - 1;
+            }
+            nextSlide(slide, currentSlide, 'portfolio-item-active');
+            nextSlide(dot, currentSlide, 'dot-active');
+        });
+
+        slider.addEventListener('mouseover', (e) => {
+            if(e.target.matches('.portfolio-btn') ||  //? matches(если евент таргет является так-то классом)
+            e.target.matches('.dot')){
+                stopSlide();
+            }  
+        });
+
+        slider.addEventListener('mouseout', (e) => {
+            if(e.target.matches('.portfolio-btn') ||  //? matches(если евент таргет является так-то классом)
+            e.target.matches('.dot')){
+                startSlide();
+            }  
+        });
+
+        startSlide(1500);
+    }
+    slider();
+
+
+
 
 });
