@@ -1,20 +1,21 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable strict */
 window.addEventListener('DOMContentLoaded', () => {
-    //   "parser" = "babel-eslint" ;
     'use strict';
 
     //? Timer
     function countTimer(deadline) {
-        let timerHours = document.querySelector('#timer-hours'),
+        const timerHours = document.querySelector('#timer-hours'),
             timerMinutes = document.querySelector('#timer-minutes'),
             timerSeconds = document.querySelector('#timer-seconds');
 
         function getTimeRemaining() {
-            let dateStop = new Date(deadline).getTime(),
-                dateNow = new Date().getTime(),
-                timeRemaining = (dateStop - dateNow) / 1000,
-                seconds = Math.floor(timeRemaining % 60),
-                minutes = Math.floor((timeRemaining / 60) % 60),
-                hours = Math.floor(timeRemaining / 60 / 60);
+            const dateStop = new Date(deadline).getTime();
+            const dateNow = new Date().getTime();
+            const timeRemaining = (dateStop - dateNow) / 1000;
+            const seconds = Math.floor(timeRemaining % 60);
+            const minutes = Math.floor((timeRemaining / 60) % 60);
+            const hours = Math.floor(timeRemaining / 60 / 60);
 
             return {
                 timeRemaining,
@@ -26,7 +27,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
         function updateClock() {
-            let timer = getTimeRemaining();
+            const timer = getTimeRemaining();
             if (timer.hours < 10 && timer.hours >= 0) {
                 timer.hours = '0' + timer.hours;
             }
@@ -48,7 +49,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        let idInterval = setInterval(updateClock, 1000);
+        const idInterval = setInterval(updateClock, 1000);
     }
 
     countTimer('27 february 2021 19:40:00');
@@ -57,20 +58,20 @@ window.addEventListener('DOMContentLoaded', () => {
     const toggleMenu = () => {
         const menu = document.querySelector('menu');
 
-        document.addEventListener('click', (e) => {
+        document.addEventListener('click', e => {
             if (!e.target.classList.contains('menu')) {
-                let targetMenu = e.target.closest('.menu');
+                const targetMenu = e.target.closest('.menu');
                 if (targetMenu) {
                     menu.classList.add('active-menu');
                 }
                 if (e.target.classList.contains('close-btn')) {
-                    let closeTarget = e.target.closest('.close-btn');
+                    const closeTarget = e.target.closest('.close-btn');
                     if (closeTarget) {
                         menu.classList.remove('active-menu');
                     }
                 }
                 if (!e.target.matches('ul>li')) {
-                    let liTarget = e.target.closest('ul>li');
+                    const liTarget = e.target.closest('ul>li');
                     if (liTarget) {
                         menu.classList.remove('active-menu');
                     }
@@ -89,7 +90,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let count = 100;
 
         if (width > 768) {
-            popupBtn.forEach((item) => {
+            popupBtn.forEach(item => {
                 item.addEventListener('click', () => {
                     popup.style.display = 'block';
                     count = 100;
@@ -97,13 +98,13 @@ window.addEventListener('DOMContentLoaded', () => {
                 });
             });
         } else {
-            popupBtn.forEach((item) => {
+            popupBtn.forEach(item => {
                 item.addEventListener('click', () => {
                     popup.style.display = 'block';
                 });
             });
         }
-        popup.addEventListener('click', (event) => {
+        popup.addEventListener('click', event => {
             let target = event.target;
 
             if (target.classList.contains('popup-close')) {
@@ -118,7 +119,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
         let popupInterval;
-        let showPopup = function () {
+        const showPopup = function() {
             popupInterval = requestAnimationFrame(showPopup);
             count--;
             if (count !== 10) {
@@ -126,9 +127,9 @@ window.addEventListener('DOMContentLoaded', () => {
             } else {
                 cancelAnimationFrame(popupInterval);
             }
-        }
+        };
 
-    }
+    };
     togglePopUp();
 
     //     ! tabs
@@ -137,7 +138,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const tab = tabHeader.querySelectorAll('.service-header-tab');
         const tabContent = document.querySelectorAll('.service-tab');
 
-        const toggleTabContent = (index) => {
+        const toggleTabContent = index => {
             for (let i = 0; i < tabContent.length; i++) {
                 if (index === i) {
                     tab[i].classList.add('active');
@@ -149,7 +150,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        tabHeader.addEventListener('click', (event) => {
+        tabHeader.addEventListener('click', event => {
             let target = event.target;
             target = target.closest('.service-header-tab');
 
@@ -169,29 +170,32 @@ window.addEventListener('DOMContentLoaded', () => {
     //! Slider
     const slider = () => {
         const slide = document.querySelectorAll('.portfolio-item');
-        const dot = document.querySelectorAll('.dot');
         const slider = document.querySelector('.portfolio-content');
+        const portfolio = document.querySelector('#portfolio');
+        const ul = portfolio.querySelector('.portfolio-dots');
+
         class AddDots {
             constructor(elem, newClass) {
                 this.elem = elem;
                 this.newClass = newClass;
             }
             addNewClass() {
-                const portfolio = document.querySelector('#portfolio');
-                const ul = portfolio.querySelector('.portfolio-dots');
                 this.elem = document.createElement('li');
                 this.elem.classList.add('dot');
                 ul.append(this.elem);
             }
         }
         const appData = new AddDots();
-        
-        slide.forEach((item) => {
+
+        slide.forEach(item => {
             if (item) {
                 appData.addNewClass();
             }
         });
 
+        const dot = document.querySelectorAll('.dot');
+        dot[0].classList.add('dot-active');
+        console.dir(dot);
 
         let currentSlide = 0; //?  это номер слайда
         let interval;
@@ -225,11 +229,11 @@ window.addEventListener('DOMContentLoaded', () => {
             clearInterval(interval);
         };
 
-        slider.addEventListener('click', (e) => {
+        slider.addEventListener('click', e => {
             const dot = document.querySelectorAll('.dot');
-            
+
             e.preventDefault();
-            let target = e.target;
+            const target = e.target;
 
             if (!target.matches('.portfolio-btn, .dot')) {
                 return;
@@ -260,25 +264,21 @@ window.addEventListener('DOMContentLoaded', () => {
             nextSlide(dot, currentSlide, 'dot-active');
         });
 
-        slider.addEventListener('mouseover', (e) => {
-            if(e.target.matches('.portfolio-btn') ||  //? matches(если евент таргет является так-то классом)
-            e.target.matches('.dot')){
+        slider.addEventListener('mouseover', e => {
+            if (e.target.matches('.portfolio-btn') || //? matches(если евент таргет является так-то классом)
+                e.target.matches('.dot')) {
                 stopSlide();
-            }  
+            }
         });
 
-        slider.addEventListener('mouseout', (e) => {
-            if(e.target.matches('.portfolio-btn') ||  //? matches(если евент таргет является так-то классом)
-            e.target.matches('.dot')){
+        slider.addEventListener('mouseout', e => {
+            if (e.target.matches('.portfolio-btn') || //? matches(если евент таргет является так-то классом)
+                e.target.matches('.dot')) {
                 startSlide();
-            }  
+            }
         });
 
         startSlide(1500);
-    }
+    };
     slider();
-
-
-
-
 });
