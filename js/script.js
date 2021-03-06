@@ -119,7 +119,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
         let popupInterval;
-        const showPopup = function() {
+        const showPopup = function () {
             popupInterval = requestAnimationFrame(showPopup);
             count--;
             if (count !== 10) {
@@ -195,7 +195,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         const dot = document.querySelectorAll('.dot');
         dot[0].classList.add('dot-active');
-        console.dir(dot);
 
         let currentSlide = 0; //?  это номер слайда
         let interval;
@@ -281,4 +280,103 @@ window.addEventListener('DOMContentLoaded', () => {
         startSlide(1500);
     };
     slider();
+
+    //! command
+
+    const img = document.querySelectorAll('.command__photo');
+
+    img.forEach(item => {
+        const standartImg = item.src;
+        item.addEventListener('mouseenter', e => {
+            e.target.src = e.target.dataset.img;
+
+        });
+        item.addEventListener('mouseleave', e => {
+            e.target.src = standartImg;
+        });
+    });
+
+
+    //! Calc
+
+    const calcItem = document.querySelectorAll('.calc-item');
+    calcItem.forEach(item => {
+        item.addEventListener('input', () => {
+            item.value = item.value.replace(/\D/ig, '');
+        });
+    });
+
+    //! Form 1 redactor
+
+    const name1 = document.getElementById('form1-name');
+    const mail1 = document.getElementById('form1-email');
+    const phone1 = document.getElementById('form1-phone');
+
+    name1.addEventListener('input', () => {
+        name1.value = name1.value.replace(/[^а-яА-ЯёЁ\s\-]/g, '');
+    });
+    name1.addEventListener('blur', () => {
+        // eslint-disable-next-line max-len
+        name1.value = name1.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, (x) => x.toLowerCase()).replace(/^[а-я]/g, (x) => x.toUpperCase()).trim();
+    });
+
+
+    mail1.addEventListener('input', () => {
+        mail1.value = mail1.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/^[@_.!`*']/g, '');
+    });
+    mail1.addEventListener('bulr', () => {
+        // eslint-disable-next-line max-len
+        mail1.value = mail1.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').trim();
+
+    });
+
+    phone1.addEventListener('input', () => {
+        phone1.value = phone1.value.replace(/([^0-9()\-])/g, '').replace(/(^[\(\)])/g, '').trim();
+    });
+    phone1.addEventListener('blur', () => {
+        // eslint-disable-next-line max-len
+        phone1.value = phone1.value.replace(/^\+?[78]+[\-\(]?(\d{3})[\-\)]?(\d{3})[-]?(\d{2})[-]?(\d{2})$/gm, '+7($1)$2-$3-$4').trim();
+    });
+
+
+    //! Form2 redactor
+
+    const name = document.getElementById('form2-name');
+    const mail = document.getElementById('form2-email');
+    const phone = document.getElementById('form2-phone');
+    const message = document.getElementById('form2-message');
+
+    name.addEventListener('input', () => {
+        name.value = name.value.replace(/[^а-яА-ЯёЁ\s\-]/g, '');
+    });
+    name.addEventListener('blur', () => {
+        // eslint-disable-next-line max-len
+        name.value = name.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, (x) => x.toLowerCase()).replace(/^[а-я]/g, (x) => x.toUpperCase()).trim();
+    });
+
+
+    mail.addEventListener('input', () => {
+        mail.value = mail.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/^[@_.!`*']/g, '');
+    });
+    mail.addEventListener('bulr', () => {
+        // eslint-disable-next-line max-len
+        mail.value = mail.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').trim();
+
+    });
+
+    phone.addEventListener('input', () => {
+        phone.value = phone.value.replace(/([^0-9()\-])/g, '').replace(/(^[\(\)])/g, '').trim();
+    });
+    phone.addEventListener('blur', () => {
+        // eslint-disable-next-line max-len
+        phone.value = phone.value.replace(/^\+?[78]+[\-\(]?(\d{3})[\-\)]?(\d{3})[-]?(\d{2})[-]?(\d{2})$/gm, '+7($1)$2-$3-$4').trim();
+    });
+
+    message.addEventListener('input', () => {
+        message.value = message.value.replace(/[^а-яА-ЯёЁ\s\-]/g, '');
+    });
+    message.addEventListener('blur', () => {
+        // eslint-disable-next-line max-len
+        message.value = message.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, (x) => x.toLowerCase()).replace(/^[а-я]/g, (x) => x.toUpperCase()).trim();
+    });
 });
