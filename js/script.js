@@ -1,3 +1,6 @@
+/* eslint-disable semi */
+/* eslint-disable eol-last */
+/* eslint-disable no-useless-escape */
 /* eslint-disable no-use-before-define */
 /* eslint-disable strict */
 window.addEventListener('DOMContentLoaded', () => {
@@ -52,7 +55,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const idInterval = setInterval(updateClock, 1000);
     }
 
-    countTimer('27 february 2021 19:40:00');
+    countTimer('7 april 2021 19:40:00');
 
     //? Menu
     const toggleMenu = () => {
@@ -119,7 +122,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
         let popupInterval;
-        const showPopup = function () {
+        const showPopup = function() {
             popupInterval = requestAnimationFrame(showPopup);
             count--;
             if (count !== 10) {
@@ -306,77 +309,50 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    //! Form 1 redactor
 
-    const name1 = document.getElementById('form1-name');
-    const mail1 = document.getElementById('form1-email');
-    const phone1 = document.getElementById('form1-phone');
+    const formValid = () => {
+        const name = document.querySelectorAll('.form-name');
+        const email = document.querySelectorAll('.form-email');
+        const phone = document.querySelectorAll('.form-phone');
+        const message = document.querySelectorAll('.form-message');
 
-    name1.addEventListener('input', () => {
-        name1.value = name1.value.replace(/[^а-яА-ЯёЁ\s\-]/g, '');
-    });
-    name1.addEventListener('blur', () => {
-        // eslint-disable-next-line max-len
-        name1.value = name1.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, (x) => x.toLowerCase()).replace(/^[а-я]/g, (x) => x.toUpperCase()).trim();
-    });
+        name.forEach(item => {
+            item.addEventListener('input', () => {
+                item.value = item.value.replace(/[^а-яА-ЯёЁ\s\-]/g, '');
+            });
+            item.addEventListener('blur', () => {
+                // eslint-disable-next-line max-len
+                item.value = item.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, x => x.toLowerCase()).replace(/^[а-я]/g, x => x.toUpperCase()).trim();
+            });
+        });
+        email.forEach(item => {
+            item.addEventListener('input', () => {
+                item.value = item.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/^[@_.!`*']/g, '');
+            });
+            item.addEventListener('bulr', () => {
+                // eslint-disable-next-line max-len
+                item.value = item.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').trim();
+            });
+        });
+        phone.forEach(item => {
+            item.addEventListener('input', () => {
+                item.value = item.value.replace(/([^0-9()\-\+])/g, '').replace(/(^[\(\)])/g, '').trim();
+            });
+            item.addEventListener('blur', () => {
+                // eslint-disable-next-line max-len
+                item.value = item.value.replace(/^\+?[78]+[\-\(]?(\d{3})[\-\)]?(\d{3})[-]?(\d{2})[-]?(\d{2})$/gm, '+7($1)$2-$3-$4').trim();
+            });
+        });
+        message.forEach(item => {
+            item.addEventListener('input', () => {
+                item.value = item.value.replace(/[^а-яА-ЯёЁ\s\-]/g, '');
+            });
+            item.addEventListener('blur', () => {
+                // eslint-disable-next-line max-len
+                item.value = item.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, x => x.toLowerCase()).replace(/^[а-я]/g, x => x.toUpperCase()).trim();
+            });
+        });
+    }
+    formValid();
 
-
-    mail1.addEventListener('input', () => {
-        mail1.value = mail1.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/^[@_.!`*']/g, '');
-    });
-    mail1.addEventListener('bulr', () => {
-        // eslint-disable-next-line max-len
-        mail1.value = mail1.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').trim();
-
-    });
-
-    phone1.addEventListener('input', () => {
-        phone1.value = phone1.value.replace(/([^0-9()\-])/g, '').replace(/(^[\(\)])/g, '').trim();
-    });
-    phone1.addEventListener('blur', () => {
-        // eslint-disable-next-line max-len
-        phone1.value = phone1.value.replace(/^\+?[78]+[\-\(]?(\d{3})[\-\)]?(\d{3})[-]?(\d{2})[-]?(\d{2})$/gm, '+7($1)$2-$3-$4').trim();
-    });
-
-
-    //! Form2 redactor
-
-    const name = document.getElementById('form2-name');
-    const mail = document.getElementById('form2-email');
-    const phone = document.getElementById('form2-phone');
-    const message = document.getElementById('form2-message');
-
-    name.addEventListener('input', () => {
-        name.value = name.value.replace(/[^а-яА-ЯёЁ\s\-]/g, '');
-    });
-    name.addEventListener('blur', () => {
-        // eslint-disable-next-line max-len
-        name.value = name.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, (x) => x.toLowerCase()).replace(/^[а-я]/g, (x) => x.toUpperCase()).trim();
-    });
-
-
-    mail.addEventListener('input', () => {
-        mail.value = mail.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/^[@_.!`*']/g, '');
-    });
-    mail.addEventListener('bulr', () => {
-        // eslint-disable-next-line max-len
-        mail.value = mail.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').trim();
-
-    });
-
-    phone.addEventListener('input', () => {
-        phone.value = phone.value.replace(/([^0-9()\-])/g, '').replace(/(^[\(\)])/g, '').trim();
-    });
-    phone.addEventListener('blur', () => {
-        // eslint-disable-next-line max-len
-        phone.value = phone.value.replace(/^\+?[78]+[\-\(]?(\d{3})[\-\)]?(\d{3})[-]?(\d{2})[-]?(\d{2})$/gm, '+7($1)$2-$3-$4').trim();
-    });
-
-    message.addEventListener('input', () => {
-        message.value = message.value.replace(/[^а-яА-ЯёЁ\s\-]/g, '');
-    });
-    message.addEventListener('blur', () => {
-        // eslint-disable-next-line max-len
-        message.value = message.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, (x) => x.toLowerCase()).replace(/^[а-я]/g, (x) => x.toUpperCase()).trim();
-    });
 });
