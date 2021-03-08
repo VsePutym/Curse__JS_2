@@ -348,7 +348,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         calcItem.forEach(item => {
             item.addEventListener('input', () => {
-                item.value = item.value.replace(/\D/ig, ''); //? Ввод только цифр
+                item.value = item.value.replace(/\D\./ig, ''); //? Ввод только цифр
             });
         });
 
