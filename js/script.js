@@ -335,7 +335,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 total = 0;
             }
 
-            totalValue.textContent = total;
+            totalValue.textContent = Math.floor(total);
         };
 
         calcBlock.addEventListener('change', e => {
