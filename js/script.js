@@ -55,8 +55,6 @@ window.addEventListener('DOMContentLoaded', () => {
         const idInterval = setInterval(updateClock, 1000);
     }
 
-    countTimer('7 april 2021 19:40:00');
-
     //? Menu
     const toggleMenu = () => {
         const menu = document.querySelector('menu');
@@ -82,7 +80,6 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
-    toggleMenu();
 
     //! popup
     const togglePopUp = () => {
@@ -122,7 +119,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
         let popupInterval;
-        const showPopup = function() {
+        const showPopup = function () {
             popupInterval = requestAnimationFrame(showPopup);
             count--;
             if (count !== 10) {
@@ -133,9 +130,8 @@ window.addEventListener('DOMContentLoaded', () => {
         };
 
     };
-    togglePopUp();
 
-    //     ! tabs
+    //! tabs
     const tabs = () => {
         const tabHeader = document.querySelector('.service-header');
         const tab = tabHeader.querySelectorAll('.service-header-tab');
@@ -166,8 +162,6 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
-
-    tabs();
 
     //! Slider
     const slider = () => {
@@ -281,23 +275,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
         startSlide(1500);
     };
-    slider();
 
     //! command
+    const command = () => {
+        const img = document.querySelectorAll('.command__photo');
 
-    const img = document.querySelectorAll('.command__photo');
+        img.forEach(item => {
+            const standartImg = item.src;
+            item.addEventListener('mouseenter', e => {
+                e.target.src = e.target.dataset.img;
 
-    img.forEach(item => {
-        const standartImg = item.src;
-        item.addEventListener('mouseenter', e => {
-            e.target.src = e.target.dataset.img;
-
+            });
+            item.addEventListener('mouseleave', e => {
+                e.target.src = standartImg;
+            });
         });
-        item.addEventListener('mouseleave', e => {
-            e.target.src = standartImg;
-        });
-    });
-
+    }
 
     //! Calc
 
@@ -356,16 +349,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     };
 
-    calc(100);
-
-
-
-
     const formValid = () => {
         const name = document.querySelectorAll('.form-name');
         const email = document.querySelectorAll('.form-email');
         const phone = document.querySelectorAll('.form-phone');
-        const message = document.querySelectorAll('.form-message');
+        const message = document.querySelector('.mess');
 
         name.forEach(item => {
             item.addEventListener('input', () => {
@@ -394,16 +382,77 @@ window.addEventListener('DOMContentLoaded', () => {
                 item.value = item.value.replace(/^\+?[78]+[\-\(]?(\d{3})[\-\)]?(\d{3})[-]?(\d{2})[-]?(\d{2})$/gm, '+7($1)$2-$3-$4').trim();
             });
         });
-        message.forEach(item => {
-            item.addEventListener('input', () => {
-                item.value = item.value.replace(/[^а-яА-ЯёЁ\s\-]/g, '');
-            });
-            item.addEventListener('blur', () => {
-                // eslint-disable-next-line max-len
-                item.value = item.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, x => x.toLowerCase()).replace(/^[а-я]/g, x => x.toUpperCase()).trim();
-            });
+        message.addEventListener('input', () => {
+            message.value = message.value.replace(/[^а-яА-ЯёЁ\s\-\,\.\!\0-9]/g, '');
+        });
+        message.addEventListener('blur', () => {
+            // eslint-disable-next-line max-len
+            message.value = message.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, x => x.toLowerCase()).replace(/^[а-я]/g, x => x.toUpperCase()).trim();
         });
     }
-    formValid();
 
+    //! send-ajax-form
+
+    const sendForm = () => {
+        const errorMessage = 'Что-то пошло не так...';
+        const loadMessage = 'Загрузка...';
+        const successMessage = 'Спасибо! Мы скоро с вами свяжемся';
+
+        const form = document.querySelectorAll('form[name="user_form"]');
+
+        const statusMessage = document.createElement('div');
+        statusMessage.style.cssText = `font-size: 2rem;
+        color: #fff;`;
+
+        form.forEach(item => {
+            item.addEventListener('submit', event => {
+                event.preventDefault();
+                item.appendChild(statusMessage);
+                statusMessage.textContent = loadMessage;
+                const formData = new FormData(item);
+                let body = {};
+                // eslint-disable-next-line no-trailing-spaces
+                formData.forEach((val, key) => {
+                    body[key] = val;
+                    item[key].value = '';
+                })
+                postData(body, () => {
+                    statusMessage.textContent = successMessage;
+                }, (error) => {
+                    statusMessage.textContent = errorMessage;
+                });
+            });
+        });
+
+
+
+        const postData = (body, outputData, errorData) => {
+            const request = new XMLHttpRequest();
+
+            request.addEventListener('readystatechange', () => {
+                if (request.readyState !== 4) {
+                    return;
+                }
+                if (request.status === 200) {
+                    outputData();
+                } else {
+                    errorData(request.status);
+                }
+            });
+
+            request.open('POST', './server.php');
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.send(JSON.stringify(body));
+        }
+    }
+
+    countTimer('7 april 2021 19:40:00');
+    toggleMenu();
+    togglePopUp();
+    tabs();
+    slider();
+    command();
+    calc(100);
+    formValid();
+    sendForm();
 });
