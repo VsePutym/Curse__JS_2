@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable semi */
 /* eslint-disable eol-last */
 /* eslint-disable no-useless-escape */
@@ -410,19 +409,16 @@ window.addEventListener('DOMContentLoaded', () => {
                 item.appendChild(statusMessage);
                 statusMessage.textContent = loadMessage;
                 const formData = new FormData(item);
+                const body = {};
 
-                postData(formData)
-                    .then(response => {
-                        if (response.status !== 200) {
-                            throw new Error('status network not 200.');
-                        }
-                        console.log(response);
+                formData.forEach((val, key) => {
+                    body[key] = val;
+                    item[key].value = '';
+                });
+
+                postData(body)
+                    .then( =()=>{
                         statusMessage.textContent = successMessage;
-                        const inputs = document.querySelectorAll('input');
-                        inputs.forEach(item => {
-                            item.value = '';
-                        })
-
                     })
                     .catch(error => {
                         statusMessage.textContent = errorMessage;
@@ -431,14 +427,28 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+
+
         // eslint-disable-next-line arrow-body-style
-        const postData = formData => {
-            return fetch('./server.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: formData
+        const postData = body => {
+            return new Promise((resolve, reject) => {
+                const request = new XMLHttpRequest();
+
+                request.addEventListener('readystatechange', () => {
+                    if (request.readyState !== 4) {
+                        return;
+                    }
+                    if (request.status === 200) {
+                        resolve();
+                    } else {
+                        const error = request.statusText;
+                        reject(error);
+                    }
+                });
+
+                request.open('POST', './server.php');
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.send(JSON.stringify(body));
             });
         }
     }
