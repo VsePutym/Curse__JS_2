@@ -441,10 +441,10 @@ window.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     if (request.status === 200) {
-                        const response = request;
+                        const response = request.status;
                         resolve(response);
                     } else {
-                        const error = request.status;
+                        const error = new Error('status network not 200.');
                         reject(error);
                     }
                 });
