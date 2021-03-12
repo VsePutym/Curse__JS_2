@@ -417,8 +417,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 });
 
                 postData(body)
-                    .then(response => {
-                        console.log(response);
+                    .then(() => {
                         statusMessage.textContent = successMessage;
 
                     })
@@ -441,11 +440,9 @@ window.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     if (request.status === 200) {
-                        const response = request.status;
-                        resolve(response);
+                        resolve();
                     } else {
-                        const error = new Error('status network not 200.');
-                        reject(error);
+                        reject(request.statusText);
                     }
                 });
 
