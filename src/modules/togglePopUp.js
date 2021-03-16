@@ -17,6 +17,7 @@ const togglePopUp = () => {
             item.addEventListener('click', () => {
                 popup.style.display = 'block';
                 count = 100;
+                // popupContent.style.top = 100 + '%';
                 popupInterval = requestAnimationFrame(showPopup);
             });
         });
@@ -45,11 +46,14 @@ const togglePopUp = () => {
     const showPopup = function() {
         popupInterval = requestAnimationFrame(showPopup);
         count--;
-        if (count !== 10) {
+        if (count > 10) {
             popupContent.style.top = count + '%';
+        } else if (count < 10) {
+            popupContent.style.top = 11 + '%';
         } else {
             cancelAnimationFrame(popupInterval);
         }
+
     };
 
 };
