@@ -1,12 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable no-undef */
-/* eslint-disable no-useless-escape */
-/* eslint-disable eol-last */
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-unused-vars */
-/* eslint-disable indent */
-/* eslint-disable strict */
-
 const formValid = () => {
     const name = document.querySelectorAll('.form-name');
     const email = document.querySelectorAll('.form-email');
