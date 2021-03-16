@@ -13,7 +13,6 @@ import tabs from './modules/tabs';
 import slider from './modules/slider';
 import command from './modules/command';
 import calc from './modules/calc';
-import formValid from './modules/formValid';
 import sendForm from './modules/sendForm';
 
 
@@ -24,5 +23,4 @@ tabs();
 slider();
 command();
 calc(100);
-formValid();
 sendForm();
