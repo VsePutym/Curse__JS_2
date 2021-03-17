@@ -5,7 +5,7 @@ const path = require('path');
 module.exports = {
     entry: './src/index.js', //? точка входа
     output: { //? точка выхода
-        filename: 'bundle.js', //? собираем бандел с именем бандел
+        filename: 'production-bundle.js', //? собираем бандел с именем бандел
         path: path.resolve(__dirname, './dist') //? путь к папке
     },
     mode: 'production',

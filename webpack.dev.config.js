@@ -2,11 +2,13 @@
 /* eslint-disable no-undef */
 const path = require('path'); //? плагин
 
+
 module.exports = {
     entry: './src/index.js', //? точка входа
     output: { //? точка выхода
+        publicPath: '/',
         filename: 'dev-bundle.js', //? собираем бандел с именем бандел
-        path: path.resolve(__dirname, './dist') //? путь к папке, то куда мы собираем проект
+        path: path.resolve(__dirname, './dist'), //? путь к папке, то куда мы собираем проект
     },
     mode: 'development',
     devServer: {

@@ -30,10 +30,11 @@ const sendForm = () => {
         });
         item.addEventListener('blur', event => {
             const target = event.target;
-            target.value = target.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').replace(/[А-Я]/g, x => x.toLowerCase()).replace(/^[а-я]/g, x => x.toUpperCase()).trim();
+            target.value = target.value.replace(/\s+/g, ' ').replace(/\-+/g, '-').replace(/^-+|-+$/g, '').trim();
             if (target.value.length <= 1) {
                 target.value = '';
             } else {
+                target.value = target.value.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
                 validName = true;
             }
         });
@@ -43,12 +44,19 @@ const sendForm = () => {
     email.forEach(item => {
         item.addEventListener('input', event => {
             const target = event.target;
+            const regEmail = /^\D+\@\D+\.\D{1,3}/gm;
             target.value = target.value.replace(/[^a-zA-Z@_.!\-]/g, '').replace(/^[@_.!`*']/g, '').trim();
-            if (target.value) {
+            const getReg = regEmail.exec(target.value);
+            console.log(getReg);
+            if (getReg !== null) {
                 validEmail = true;
+                item.setCustomValidity('');
+            } else {
+                validEmail = false;
+                item.setCustomValidity('неверный ввод, попробуйте один из следующих форматов ввода: sobaka@gmail.com или sobaka@mail.ru');
             }
         });
-        item.addEventListener('bulr', event => {
+        item.addEventListener('blur', event => {
             const target = event.target;
             target.value = target.value.replace(/[^a-zA-Z@_.!`*'\-]/g, '').replace(/\s+/g, ' ').replace(/\-+/g, '-').trim();
         });
@@ -93,9 +101,9 @@ const sendForm = () => {
     form.forEach(item => {
         item.addEventListener('submit', event => {
             event.preventDefault();
-            console.log(validName);
-            console.log(validPhone);
-            console.log('выалидность мыла' + validEmail);
+            console.log('валидность имени: ' + validName);
+            console.log('валидность тел.: ' + validPhone);
+            console.log('валидность мыла: ' + validEmail);
 
             if (validName && validPhone && validEmail || validName && validPhone && validEmail && validMessage) {
                 item.appendChild(statusMessage);
