@@ -16,7 +16,7 @@ import calc from './modules/calc';
 import sendForm from './modules/sendForm';
 
 
-countTimer('7 april 2021 19:40:00');
+countTimer('15 June 2021 19:40:00');
 toggleMenu();
 togglePopUp();
 tabs();

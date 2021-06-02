@@ -7,6 +7,9 @@
 
 const toggleMenu = () => {
     const menu = document.querySelector('menu');
+    const a = menu.querySelectorAll('a[href*="#"]');
+
+    console.log(a);
 
     document.addEventListener('click', e => {
         if (!e.target.classList.contains('menu')) {
